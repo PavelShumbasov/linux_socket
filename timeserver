@@ -7,23 +7,19 @@ def run_server():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Привязываем сокет к адресу 0.0.0.0 (все сетевые интерфейсы устройства) и порту 1303
     server_socket.bind(('0.0.0.0', 1303))
-    server_socket.listen(1) # Слушаем входящие подключения, не более 1 соединения в очереди
+    server_socket.listen(1)  # Слушаем входящие подключения, не более 1 соединения в очереди
 
     print("Сервер запущен. Ожидание подключения...")
 
-    try:
-        while True:
-            client_socket, client_address = server_socket.accept() # Принимаем входящее подключение
-            print(f"Подключено клиентом: {client_address}")
+    while True:
+        client_socket, client_address = server_socket.accept()  # Принимаем входящее подключение
+        print(f"Подключено клиентом: {client_address}")
 
-            current_time = datetime.datetime.now().strftime("%d.%m.%Y %H:%M")
-            client_socket.send(current_time.encode()) # Отправляем время клиенту
+        current_time = datetime.datetime.now().strftime("%d.%m.%Y %H:%M")
+        client_socket.send(current_time.encode())  # Отправляем время клиенту
 
-            client_socket.close()
-            print(f"Соединение с {client_address} закрыто")
-
-    except KeyboardInterrupt:
-        print("Сервер остановлен.")
+        client_socket.close()
+        print(f"Соединение с {client_address} закрыто")
 
 
 if __name__ == "__main__":
